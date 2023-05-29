@@ -1,26 +1,26 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <fstream>
 #include "ShortestPath.h"
 
+// csv파일을 읽고 Edge를 추가하는 함수
 bool readSPFromFile(string fileName, ShortestPath& SP);
 
 int main()
 {
-    // graph 선언 및 텍스트파일에서 로드
-    ShortestPath graph(0);
-    if (!readSPFromFile("graph1.csv", graph))
+    // SP 선언 및 csv파일에서 로드
+    ShortestPath SP(0);
+    if (!readSPFromFile("graph1.csv", SP))
         return 0;
 
     // graph에서 1번노드부터 Dijkstra 실행
-    graph.Dijkstra(0);
+    SP.Dijkstra(0);
     cout << "----- graph Dijkstra print -----" << endl;
-    graph.printShortestPaths();
+    SP.print();
     return 0;
 }
 
-// 텍스트 파일을 읽고 Edge를 추가하는 함수
+// csv파일을 읽고 Edge를 추가하는 함수
 bool readSPFromFile(string fileName, ShortestPath& SP)
 {
     ifstream file(fileName);

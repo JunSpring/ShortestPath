@@ -1,20 +1,25 @@
 #include "ShortestPath.h"
 
-ShortestPath::ShortestPath(int vertices) : graph(vertices) 
+// 노드 수를 받아 변수를 초기화 하는 생성자
+ShortestPath::ShortestPath(int vertices) : AL(vertices) 
 {
-    V = vertices;
-    d.resize(V);
-    p.resize(V);
+    size = vertices;
+    d.resize(size);
+    p.resize(size);
 }
 
+// Edge를 추가하는 함수
 void ShortestPath::addEdge(int src, int dest, int weight) 
 {
-    graph.addEdge(src, dest, weight);
+    AL.addEdge(src, dest, weight);
 }
 
+// 초기화 함수
 void ShortestPath::InitializeSingleSource(int s) 
 {
-    for (int v = 0; v < V; v++) 
+    // 강의자료와 동일
+
+    for (int v = 0; v < size; v++) 
     {
         d[v] = INT_MAX;
         p[v] = -1;
@@ -22,8 +27,11 @@ void ShortestPath::InitializeSingleSource(int s)
     d[s] = 0;
 }
 
+// Relax 함수
 void ShortestPath::Relax(int u, int v, int weight) 
 {
+    //강의자료와 동일
+
     if (d[v] > d[u] + weight) 
     {
         d[v] = d[u] + weight;
@@ -31,49 +39,54 @@ void ShortestPath::Relax(int u, int v, int weight)
     }
 }
 
+// Dijkstra를 사용하여 최단거리를 구하는 함수
 void ShortestPath::Dijkstra(int s) 
 {
-    InitializeSingleSource(s);
-    vector<bool> visited(V, false); // 방문 여부 배열 초기화
-    PriorityQueue<int> pq;
+    // 강의자료와 다른 부분만 서술
 
-    pq.push(s);
+    InitializeSingleSource(s);
+    vector<bool> visited(size, false); // 방문한 Edge를 기록하기 위한 벡터
+    PriorityQueue<Edge, CompareEdge> pq;
+
+    Edge start = { s,0 };
+    pq.push(start); // 처음에 모든 노드를 push하지 않고 순차적으로 push함
 
     while (!pq.isEmpty()) 
     {
-        int u = pq.top(); // 최소 거리를 가지는 노드 선택
+        int u = pq.top().num; // 최소 거리를 가지는 노드 선택
         pq.pop();
 
         visited[u] = true;
 
-        vector<Edge> adj = graph.getAdjacentVertices(u);
-        for (const Edge& edge : adj) 
+        list<Edge> adj = AL.getAdjacentVertices(u);
+        for (Edge v : adj) 
         {
-            int v = edge.dest;
-            int weight = edge.weight;
-
-            if (!visited[v]) 
+            if (!visited[v.num])
             {
-                Relax(u, v, weight);
-                pq.push(v);
+                Relax(u, v.num, v.weight);
+                v.weight = d[v.num];
+                pq.push(v); // 나머지 노드는 이 코드에서 push함
             }
         }
     }
 }
 
-void ShortestPath::printShortestPaths() 
+// 출력 함수
+void ShortestPath::print() 
 {
-    for (int i = 1; i < V; i++) 
+    for (int i = 1; i < size; i++) 
     {
         int node = i;
-        stack<int> path;
+        stack<int> path; // 출력을 위한 스택
 
-        while (node != -1) {
+        while (node != -1) 
+        {
             path.push(node);
             node = p[node];
         }
 
-        while (!path.empty()) {
+        while (!path.empty()) 
+        {
             cout << path.top() + 1;
             if (path.size() > 1)
                 cout << " -> ";
