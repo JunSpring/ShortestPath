@@ -1,5 +1,5 @@
-#ifndef PRIORITY_QUEUE_H
-#define PRIORITY_QUEUE_H
+#ifndef PRIORITYQUEUE_H
+#define PRIORITYQUEUE_H
 
 #include <vector>
 #include <algorithm> // 비교함수를 넣기 위해 사용
@@ -62,7 +62,7 @@ void PriorityQueue<T, Compare>::heapifyDown(int i)
 
     if (smallest != i)
     {
-        std::swap(data[i], data[smallest]);
+        swap(data[i], data[smallest]);
         heapifyDown(smallest);
     }
 }
@@ -102,4 +102,4 @@ T PriorityQueue<T, Compare>::top()
     return data.front();
 }
 
-#endif  // PRIORITY_QUEUE_H
+#endif  // PRIORITYQUEUE_H

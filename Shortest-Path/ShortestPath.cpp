@@ -72,27 +72,41 @@ void ShortestPath::Dijkstra(int s)
 }
 
 // 출력 함수
-void ShortestPath::print() 
+void ShortestPath::print()
 {
-    for (int i = 1; i < size; i++) 
+    // Path가 없을 것을 대비한 예외처리
+    try 
     {
-        int node = i;
-        stack<int> path; // 출력을 위한 스택
-
-        while (node != -1) 
+        for (int i = 1; i < size; i++)
         {
-            path.push(node);
-            node = p[node];
-        }
+            int node = i;
+            stack<int> path; // 출력을 위한 스택
 
-        while (!path.empty()) 
-        {
-            cout << path.top() + 1;
-            if (path.size() > 1)
-                cout << " -> ";
-            path.pop();
-        }
+            while (node != -1)
+            {
+                path.push(node);
+                node = p[node];
+            }
 
-        cout << ": " << d[i] << endl;
+            if (path.empty()) 
+            {
+                throw runtime_error("No path found to node " + to_string(i));
+            }
+
+            while (!path.empty())
+            {
+                cout << path.top() + 1;
+                if (path.size() > 1)
+                    cout << " -> ";
+                path.pop();
+            }
+
+            cout << ": " << d[i] << endl;
+        }
+    }
+
+    catch (exception e) 
+    {
+        cout << "Finding Path Error: " << e.what() << endl;
     }
 }

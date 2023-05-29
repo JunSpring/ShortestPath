@@ -25,4 +25,4 @@ public:
     list<Edge> getAdjacentVertices(int vertex);     // 인접 노드를 반환하는 함수
 };
 
-#endif
+#endif  // ADJACENCYLIST_H

@@ -1,6 +1,7 @@
 #ifndef SHORTESTPATH_H
 #define SHORTESTPATH_H
 
+#include <string>
 #include <vector>
 #include <iostream>
 #include <stack> // 출력을 위해 사용
@@ -35,4 +36,4 @@ public:
     void print();                                   // 출력 함수
 };
 
-#endif
+#endif  // SHORTESTPATH_H
